@@ -76,7 +76,7 @@ object Node2vec extends Serializable {
   def randomWalk(g: Graph[NodeAttr, EdgeAttr]) = {
     val edge2attr = g.triplets.map { edgeTriplet =>
       (s"${edgeTriplet.srcId}${edgeTriplet.dstId}", edgeTriplet.attr)
-    }.reduceByKey { case (l, r) => l }.partitionBy(new HashPartitioner(200)).persist(StorageLevel.MEMORY_ONLY)
+    }.reduceByKey { (l, r) => l }.partitionBy(new HashPartitioner(200)).persist(StorageLevel.MEMORY_ONLY)
     logger.info(s"edge2attr: ${edge2attr.count}")
     
     val examples = g.vertices.cache
